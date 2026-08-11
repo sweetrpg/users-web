@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: web-env
+
+data:
+  ENV: local
+  PORT: "8080"
+  # Traefik strips /users before the request reaches this app, same as the dev overlay - every
+  # link/redirect this app generates needs the prefix added back.
+  INGRESS_BASE_PATH: /users
+  # Shared host behind the single traefik-tailscale front door, same convention as the dev
+  # overlay's dev.sweetrpg.com.
+  SWEETRPG_ROOT_URL: https://sweetrpg.local/
+  SHARED_ASSETS_URL: https://sweetrpg.local/assets
+  BUILD_INFO_PATH: /app/config/build-info.json
+  LOG_LEVEL: info

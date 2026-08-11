@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: web-env
+
+data:
+  ENV: dev
+  PORT: "8080"
+  # Traefik strips /users before the request reaches this app (see middlewares.yaml), so the
+  # app's own routes are unprefixed - every link/form/redirect it generates needs to add /users
+  # back so the *next* browser request round-trips through the ingress correctly, matching
+  # catalog-web's/admin-web's Request.basePath pattern.
+  INGRESS_BASE_PATH: /users
+  # Where the SweetRPG logo in the nav links out to - the platform's root site, not this app's
+  # own home page.
+  SWEETRPG_ROOT_URL: https://dev.sweetrpg.com/
+  # Base URL for shared frontend static assets (logo, favicon, stylesheet), served from
+  # assets-web rather than this app's own Public/. See docs/frontend-conventions.md
+  # (sweetrpg/platform).
+  SHARED_ASSETS_URL: https://dev.sweetrpg.com/assets
+  BUILD_INFO_PATH: /app/config/build-info.json
+  LOG_LEVEL: info
