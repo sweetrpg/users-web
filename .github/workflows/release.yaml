@@ -1,0 +1,24 @@
+name: Release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to (re-)run the release for, e.g. v0.1.0"
+        required: true
+        type: string
+
+jobs:
+  release:
+    uses: sweetrpg/github-actions/.github/workflows/swift-release.yaml@master
+    with:
+      tag: ${{ inputs.tag }}
+      # Same fix as ci.yaml/pr.yaml - see the note on the `ci` job in ci.yaml.
+      swift-version: "6.2"
+    secrets: inherit
