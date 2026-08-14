@@ -1,0 +1,19 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    uses: sweetrpg/github-actions/.github/workflows/swift-ci.yaml@master
+    with:
+      publish-coverage: false
+      # Same fix as ci.yaml - see the note on the `ci` job there.
+      swift-version: "6.2"
+    secrets: inherit
