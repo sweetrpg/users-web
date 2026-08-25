@@ -18,3 +18,10 @@ data:
   SHARED_URL: https://sweetrpg.local/shared
   BUILD_INFO_PATH: /app/config/build-info.json
   LOG_LEVEL: info
+  # Server-to-server backend URL, called directly Service-to-Service - no ingress in the path.
+  USERS_API_URL: http://api-v1.sweetrpg-users.svc.cluster.local:8000
+  # Same Redis instance as the dev overlay - a shared session store, not environment-specific
+  # infra. Password comes from secrets.yaml's ExternalSecret.
+  SHARED_SESSION_REDIS_HOST: cache.sweetrpg-auth.svc.cluster.local
+  SHARED_SESSION_REDIS_PORT: "6379"
+  SHARED_SESSION_REDIS_DB: "0"

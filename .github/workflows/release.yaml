@@ -20,5 +20,5 @@ jobs:
     with:
       tag: ${{ inputs.tag }}
       # Same fix as ci.yaml/pr.yaml - see the note on the `ci` job in ci.yaml.
-      swift-version: "6.2"
+      swift-version: "6.3.3"
     secrets: inherit

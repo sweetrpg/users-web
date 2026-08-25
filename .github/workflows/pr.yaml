@@ -15,5 +15,5 @@ jobs:
     with:
       publish-coverage: false
       # Same fix as ci.yaml - see the note on the `ci` job there.
-      swift-version: "6.2"
+      swift-version: "6.3.3"
     secrets: inherit

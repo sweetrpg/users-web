@@ -1,0 +1,63 @@
+#extend("base"):
+  #export("title", "My Profile")
+  #export("page"):
+    <div class="profile-container">
+      <h1>#(meta.l10n.profile_title)</h1>
+
+      #if(errorMessage):
+        <div class="error-message">
+          #(errorMessage)
+        </div>
+      #endif
+
+      <div class="profile-view">
+        <div class="profile-field">
+          <label>#(meta.l10n.profile_name)</label>
+          <p>#(profile.name)</p>
+        </div>
+
+        <div class="profile-field">
+          <label>#(meta.l10n.profile_email)</label>
+          <p>#(profile.email)</p>
+        </div>
+
+        <div class="profile-field">
+          <label>#(meta.l10n.profile_bio)</label>
+          <p>#(profile.bio)</p>
+        </div>
+
+        <div class="profile-field">
+          <label>#(meta.l10n.profile_website)</label>
+          #if(profile.website):
+            <p><a href="#(profile.website)" target="_blank">#(profile.website)</a></p>
+          #else:
+            <p>#(meta.l10n.profile_website_none)</p>
+          #endif
+        </div>
+      </div>
+
+      <form method="post" action="#(meta.basePath)/profile" class="profile-edit-form">
+        <h2>#(meta.l10n.profile_edit)</h2>
+
+        <div class="form-field">
+          <label for="name">#(meta.l10n.profile_name)</label>
+          <input type="text" id="name" name="name" value="#(profile.name)" required>
+        </div>
+
+        <div class="form-field">
+          <label for="bio">#(meta.l10n.profile_bio)</label>
+          <textarea id="bio" name="bio" maxlength="500">#(profile.bio)</textarea>
+          <small>#(meta.l10n.profile_bio_help)</small>
+        </div>
+
+        <div class="form-field">
+          <label for="website">#(meta.l10n.profile_website)</label>
+          <input type="url" id="website" name="website" value="#(profile.website)" placeholder="https://example.com">
+          <small>#(meta.l10n.profile_website_help)</small>
+        </div>
+
+        <button type="submit" class="btn-primary">#(meta.l10n.profile_save)</button>
+      </form>
+    </div>
+  #endexport
+#endextend
