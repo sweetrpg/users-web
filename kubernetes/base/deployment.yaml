@@ -42,6 +42,8 @@ spec:
                             name: web-common
                       - configMapRef:
                             name: web-env
+                      - secretRef:
+                            name: web-shared-session
                   ports:
                       - containerPort: 8080
                         name: http

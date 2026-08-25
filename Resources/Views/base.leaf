@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>#(title)</title>
+  <link rel="stylesheet" href="#(meta.sharedURL)/css/style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="#(meta.rootURL)" class="logo">SweetRPG</a>
+      <div class="nav-links">
+        <a href="#(meta.loginURL)">Login</a>
+        <a href="#(meta.logoutURL)">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    #embed("page")
+  </main>
+
+  <footer>
+    <p>SweetRPG Platform</p>
+  </footer>
+</body>
+</html>
