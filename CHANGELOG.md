@@ -13,6 +13,13 @@
 - Fix cpu resource limit quantity that never matched ArgoCD's applied manifest
 
 
+## 0.1.0 - 2026-08-14
+
+### Added
+- Add Kubernetes manifests for dev and local
+- Route generic error status codes to shared-web
+
+
 ## [Unreleased]
 
 ### Added
