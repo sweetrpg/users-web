@@ -1,0 +1,10 @@
+#extend("base"):
+  #export("title", "Profile Error")
+  #export("page"):
+    <div class="error-container">
+      <h1>#(meta.l10n.profile_error_title)</h1>
+      <p>#(errorMessage)</p>
+      <a href="#(meta.basePath)/profile" class="btn-primary">#(meta.l10n.profile_error_retry)</a>
+    </div>
+  #endexport
+#endextend
