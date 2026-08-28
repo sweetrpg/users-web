@@ -27,6 +27,8 @@ struct LeafTemplateTests {
         #expect(body.contains("SweetRPG Platform"))
         #expect(body.contains("boom"))
         #expect(body.contains("/static/css/main.css"))
+        #expect(body.contains("sweetrpg_theme_v1"))
+        #expect(body.contains("/static/js/theme.js"))
       }
     }
   }
