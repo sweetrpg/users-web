@@ -1,4 +1,11 @@
 
+## 0.2.5 - 2026-08-28
+
+### Fixed
+- Use shared nav/footer CSS classes so the logo and layout actually render
+
+
+
 ## 0.2.4 - 2026-08-28
 
 ### Fixed
