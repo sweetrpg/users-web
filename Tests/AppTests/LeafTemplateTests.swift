@@ -24,7 +24,7 @@ struct LeafTemplateTests {
       try await app.testing().test(.GET, "test-render") { res in
         let body = res.body.string
         #expect(!body.contains("#embed"))
-        #expect(body.contains("SweetRPG Platform"))
+        #expect(body.contains("Pilgrimage Software"))
         #expect(body.contains("boom"))
         #expect(body.contains("/static/css/main.css"))
         #expect(body.contains("sweetrpg_theme_v1"))
@@ -32,6 +32,10 @@ struct LeafTemplateTests {
         #expect(body.contains("class=\"nav\""))
         #expect(body.contains("class=\"nav-brand\""))
         #expect(body.contains("nav-logo nav-logo-light"))
+        #expect(body.contains("class=\"avatar-menu\""))
+        #expect(body.contains("class=\"app-switcher\""))
+        #expect(body.contains("class=\"btn btn-primary\""))
+        #expect(!body.contains("class=\"btn-primary\""))
       }
     }
   }

@@ -17,23 +17,25 @@ struct ProfileController: RouteCollection {
     } catch {
       req.logger.error("failed to fetch profile from users-api: \(error)")
       struct ErrorView: Encodable {
+        let user: LeafUser
         let meta: PageMeta
         let errorMessage: String
       }
       return try await req.view.render(
         "profile-error",
-        ErrorView(meta: PageMeta(req), errorMessage: "Failed to load profile")
+        ErrorView(user: LeafUser(user), meta: PageMeta(req), errorMessage: "Failed to load profile")
       )
     }
 
     struct ProfileView: Encodable {
+      let user: LeafUser
       let meta: PageMeta
       let profile: Profile
       let errorMessage: String?
     }
     return try await req.view.render(
       "profile",
-      ProfileView(meta: PageMeta(req), profile: profile, errorMessage: nil)
+      ProfileView(user: LeafUser(user), meta: PageMeta(req), profile: profile, errorMessage: nil)
     )
   }
 
@@ -62,11 +64,13 @@ struct ProfileController: RouteCollection {
       if error.status == .badRequest {
         let profile = try await req.usersAPI.fetchProfile(accessToken: user.accessToken)
         struct ProfileView: Encodable {
+          let user: LeafUser
           let meta: PageMeta
           let profile: Profile
           let errorMessage: String?
         }
         let view = ProfileView(
+          user: LeafUser(user),
           meta: PageMeta(req),
           profile: profile,
           errorMessage: error.reason
