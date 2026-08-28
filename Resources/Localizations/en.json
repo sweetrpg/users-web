@@ -10,5 +10,20 @@
   "profile_website_help": "Must be a valid http(s):// URL",
   "profile_save": "Save Changes",
   "profile_error_title": "Unable to Load Profile",
-  "profile_error_retry": "Try Again"
+  "profile_error_retry": "Try Again",
+  "nav_brand": "Profile",
+  "nav_switch_app": "Switch app",
+  "nav_app_main": "Main",
+  "nav_app_catalog": "Catalog",
+  "nav_app_shelf": "Shelf",
+  "nav_app_profile": "Profile",
+  "nav_app_initiative": "Initiative",
+  "user_administration": "Administration",
+  "user_log_out": "Log out",
+  "user_log_in": "Log in",
+  "theme_group": "Theme",
+  "theme_light": "Light",
+  "theme_dark": "Dark",
+  "theme_system": "System",
+  "footer_copyright": "© 2026 Pilgrimage Software"
 }
