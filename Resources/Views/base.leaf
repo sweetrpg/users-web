@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>#(title)</title>
-  <link rel="stylesheet" href="#(meta.sharedURL)/css/style.css">
+  <link rel="stylesheet" href="#(meta.sharedURL)/static/css/main.css">
 </head>
 <body>
   <nav>
@@ -18,7 +18,7 @@
   </nav>
 
   <main>
-    #embed("page")
+    #import("page")
   </main>
 
   <footer>
