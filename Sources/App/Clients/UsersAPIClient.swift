@@ -10,7 +10,7 @@ struct UsersAPIClient {
   }
 
   func fetchProfile(accessToken: String) async throws -> Profile {
-    let response = try await client.get(URI(string: baseURL + "/api/profile")) { req in
+    let response = try await client.get(URI(string: baseURL + "/profile")) { req in
       req.headers.bearerAuthorization = BearerAuthorization(token: accessToken)
     }
     guard (200..<300).contains(response.status.code) else {
@@ -23,7 +23,7 @@ struct UsersAPIClient {
   func updateProfile(
     accessToken: String, name: String, bio: String, website: String
   ) async throws -> Profile {
-    let response = try await client.patch(URI(string: baseURL + "/api/profile")) { req in
+    let response = try await client.patch(URI(string: baseURL + "/profile")) { req in
       req.headers.bearerAuthorization = BearerAuthorization(token: accessToken)
       try req.content.encode(UpdateProfileRequest(name: name, bio: bio, website: website))
     }
