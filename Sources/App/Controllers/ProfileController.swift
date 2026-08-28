@@ -15,6 +15,7 @@ struct ProfileController: RouteCollection {
     do {
       profile = try await req.usersAPI.fetchProfile(accessToken: user.accessToken)
     } catch {
+      req.logger.error("failed to fetch profile from users-api: \(error)")
       struct ErrorView: Encodable {
         let meta: PageMeta
         let errorMessage: String
