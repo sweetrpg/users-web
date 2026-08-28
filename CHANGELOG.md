@@ -1,4 +1,11 @@
 
+## 0.2.6 - 2026-08-28
+
+### Fixed
+- Call users-api's bare /profile route, not /api/profile
+
+
+
 ## 0.2.5 - 2026-08-28
 
 ### Fixed
