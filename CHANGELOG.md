@@ -1,4 +1,11 @@
 
+## 0.2.1 - 2026-08-28
+
+### Fixed
+- Add missing Dockerfile so Docker Build can produce an image
+
+
+
 ## 0.2.0 - 2026-08-25
 
 ### Added
