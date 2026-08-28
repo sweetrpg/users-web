@@ -1,4 +1,11 @@
 
+## 0.4.0 - 2026-08-28
+
+### Added
+- Replace enter-edit-mode form with click-to-edit inline fields
+
+
+
 ## 0.3.0 - 2026-08-28
 
 ### Added
