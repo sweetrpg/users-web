@@ -39,4 +39,41 @@ struct LeafTemplateTests {
       }
     }
   }
+
+  @Test("profile renders click-to-edit fields, not the old separate edit form")
+  func profileRendersInlineEditFields() async throws {
+    try await withApp { app in
+      app.views.use(.leaf)
+      app.get("test-render") { req -> View in
+        struct ProfileView: Encodable {
+          let meta: PageMeta
+          let profile: Profile
+          let errorMessage: String?
+        }
+        return try await req.view.render(
+          "profile",
+          ProfileView(
+            meta: PageMeta(req),
+            profile: Profile(name: "Ada Lovelace", email: "ada@example.com", bio: "Mathematician", website: ""),
+            errorMessage: nil
+          )
+        )
+      }
+
+      try await app.testing().test(.GET, "test-render") { res in
+        let body = res.body.string
+        // Data the JS reads to drive inline editing - not a static form field.
+        #expect(body.contains(#"data-name="Ada Lovelace""#))
+        #expect(body.contains(#"data-bio="Mathematician""#))
+        #expect(body.contains("profile-field-value"))
+        #expect(body.contains("/profile-inline-edit.js"))
+        // The old always-visible "enter edit mode, click Save" form is gone.
+        #expect(!body.contains("profile-edit-form"))
+        #expect(!body.contains("Edit Profile"))
+        // Email stays plain, read-only display - never becomes an editable field.
+        #expect(body.contains("profile-field-readonly"))
+        #expect(!body.contains(#"data-field="email""#))
+      }
+    }
+  }
 }

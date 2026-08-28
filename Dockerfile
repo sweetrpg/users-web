@@ -28,6 +28,7 @@ WORKDIR /app
 RUN mkdir -p /app/bin /app/config
 COPY --from=builder /build/.build/release/App /app/bin/
 COPY --from=builder /build/Resources /app/Resources
+COPY --from=builder /build/Public /app/Public
 
 RUN echo "{\"number\":\"${BUILD_NUMBER}\",\"job\":\"${BUILD_JOB}\",\"sha\":\"${BUILD_SHA}\",\"date\":\"${BUILD_DATE}\",\"version\":\"${BUILD_VERSION}\"}" > /app/config/build-info.json
 RUN chown -R ${USERNAME}:${USERNAME} /app
