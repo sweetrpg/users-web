@@ -4,60 +4,82 @@
     <div class="profile-container">
       <h1>#(meta.l10n.profile_title)</h1>
 
-      #if(errorMessage):
-        <div class="error-message">
-          #(errorMessage)
-        </div>
-      #endif
-
-      <div class="profile-view">
-        <div class="profile-field">
+      <div
+        class="profile-fields"
+        data-name="#(profile.name)"
+        data-bio="#(profile.bio)"
+        data-website="#(profile.website)"
+        data-label-saved="#(meta.l10n.profile_saved)"
+        data-label-save-failed="#(meta.l10n.profile_save_failed)"
+        data-label-network-error="#(meta.l10n.profile_network_error)"
+        data-label-name-required="#(meta.l10n.profile_name_required)"
+        data-label-website-none="#(meta.l10n.profile_website_none)"
+      >
+        <div class="profile-field" data-field="name">
           <label>#(meta.l10n.profile_name)</label>
-          <p>#(profile.name)</p>
+          <div class="profile-field-value" tabindex="0" title="#(meta.l10n.profile_click_to_edit)">
+            <span class="profile-field-display">#(profile.name)</span>
+          </div>
         </div>
 
         <div class="profile-field">
           <label>#(meta.l10n.profile_email)</label>
-          <p>#(profile.email)</p>
+          <p class="profile-field-readonly">#(profile.email)</p>
         </div>
 
-        <div class="profile-field">
+        <div class="profile-field" data-field="bio">
           <label>#(meta.l10n.profile_bio)</label>
-          <p>#(profile.bio)</p>
-        </div>
-
-        <div class="profile-field">
-          <label>#(meta.l10n.profile_website)</label>
-          #if(profile.website):
-            <p><a href="#(profile.website)" target="_blank">#(profile.website)</a></p>
-          #else:
-            <p>#(meta.l10n.profile_website_none)</p>
-          #endif
-        </div>
-      </div>
-
-      <form method="post" action="#(meta.basePath)/profile" class="profile-edit-form">
-        <h2>#(meta.l10n.profile_edit)</h2>
-
-        <div class="form-field">
-          <label for="name">#(meta.l10n.profile_name)</label>
-          <input type="text" id="name" name="name" value="#(profile.name)" required>
-        </div>
-
-        <div class="form-field">
-          <label for="bio">#(meta.l10n.profile_bio)</label>
-          <textarea id="bio" name="bio" maxlength="500">#(profile.bio)</textarea>
+          <div class="profile-field-value" tabindex="0" title="#(meta.l10n.profile_click_to_edit)">
+            <span class="profile-field-display">#(profile.bio)</span>
+          </div>
           <small>#(meta.l10n.profile_bio_help)</small>
         </div>
 
-        <div class="form-field">
-          <label for="website">#(meta.l10n.profile_website)</label>
-          <input type="url" id="website" name="website" value="#(profile.website)" placeholder="https://example.com">
+        <div class="profile-field" data-field="website">
+          <label>#(meta.l10n.profile_website)</label>
+          <div class="profile-field-value" tabindex="0" title="#(meta.l10n.profile_click_to_edit)">
+            #if(profile.website):
+              <span class="profile-field-display">#(profile.website)</span>
+            #else:
+              <span class="profile-field-display profile-field-empty">#(meta.l10n.profile_website_none)</span>
+            #endif
+          </div>
           <small>#(meta.l10n.profile_website_help)</small>
         </div>
-
-        <button type="submit" class="btn btn-primary">#(meta.l10n.profile_save)</button>
-      </form>
+      </div>
     </div>
+
+    <script src="#(meta.basePath)/profile-inline-edit.js" defer></script>
+
+    <style>
+      .profile-container { max-width: 560px; margin: 0 auto; }
+      .profile-fields { display: flex; flex-direction: column; gap: var(--space-4); }
+      .profile-field label {
+        display: block; font-weight: 600; margin-bottom: var(--space-1);
+      }
+      .profile-field-readonly { margin: 0; color: var(--color-neutral-600); }
+      .profile-field-value {
+        border: 1px solid transparent; border-radius: var(--radius-md);
+        padding: var(--space-1) var(--space-2); margin: 0 0 0 calc(var(--space-2) * -1);
+        cursor: pointer; min-height: 1.5em;
+      }
+      .profile-field-value:hover, .profile-field-value:focus-visible {
+        border-color: var(--color-divider); background: var(--color-surface);
+        outline: none;
+      }
+      .profile-field-empty { color: var(--color-neutral-600); font-style: italic; }
+      .profile-field-input {
+        width: 100%; box-sizing: border-box; font: inherit;
+      }
+      textarea.profile-field-input { min-height: 90px; resize: vertical; }
+      .profile-field-saving .profile-field-value { opacity: 0.6; }
+      .profile-field-saved .profile-field-value {
+        border-color: var(--color-accent);
+        background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+      }
+      .profile-field-error { color: #7a1212; font-size: 13px; margin-top: var(--space-1); }
+      [data-theme="dark"] .profile-field-error { color: #f5a3a3; }
+      .profile-field small { display: block; color: var(--color-neutral-600); margin-top: var(--space-1); }
+    </style>
   #endexport
 #endextend

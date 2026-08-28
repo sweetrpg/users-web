@@ -39,9 +39,16 @@ struct ProfileController: RouteCollection {
     )
   }
 
+  /// Backs the profile page's inline-edit fields (see profile.leaf's script) - each field save
+  /// is its own JSON fetch(), not a full-page form submit, so this always responds with JSON
+  /// rather than a redirect or re-rendered HTML page.
   func updateProfile(req: Request) async throws -> Response {
+    struct ErrorBody: Content { let message: String }
+
     guard let user = await req.currentUser else {
-      return req.redirect(to: req.basePath + "/auth/login")
+      let res = Response(status: .unauthorized)
+      try res.content.encode(ErrorBody(message: "session expired"))
+      return res
     }
 
     struct UpdateRequest: Content {
@@ -49,35 +56,22 @@ struct ProfileController: RouteCollection {
       let bio: String
       let website: String
     }
-
     let updateReq = try req.content.decode(UpdateRequest.self)
 
     do {
-      _ = try await req.usersAPI.updateProfile(
+      let profile = try await req.usersAPI.updateProfile(
         accessToken: user.accessToken,
         name: updateReq.name,
         bio: updateReq.bio,
         website: updateReq.website
       )
-      return req.redirectLocal(to: "/profile")
+      let res = Response(status: .ok)
+      try res.content.encode(profile)
+      return res
     } catch let error as Abort {
-      if error.status == .badRequest {
-        let profile = try await req.usersAPI.fetchProfile(accessToken: user.accessToken)
-        struct ProfileView: Encodable {
-          let user: LeafUser
-          let meta: PageMeta
-          let profile: Profile
-          let errorMessage: String?
-        }
-        let view = ProfileView(
-          user: LeafUser(user),
-          meta: PageMeta(req),
-          profile: profile,
-          errorMessage: error.reason
-        )
-        return try await req.view.render("profile", view).encodeResponse(for: req)
-      }
-      throw error
+      let res = Response(status: error.status)
+      try res.content.encode(ErrorBody(message: error.reason))
+      return res
     }
   }
 }
