@@ -54,7 +54,8 @@ struct LeafTemplateTests {
           "profile",
           ProfileView(
             meta: PageMeta(req),
-            profile: Profile(name: "Ada Lovelace", email: "ada@example.com", bio: "Mathematician", website: ""),
+            profile: Profile(
+              name: "Ada Lovelace", email: "ada@example.com", bio: "Mathematician", website: ""),
             errorMessage: nil
           )
         )
