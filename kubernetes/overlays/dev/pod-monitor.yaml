@@ -3,7 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 
 metadata:
-  name: sweetrpg-admin-web
+  name: sweetrpg-users-web
   labels:
     release: prometheus
 
@@ -12,10 +12,10 @@ spec:
     - port: http
   selector:
     matchLabels:
-        platform: sweetrpg
-        app: web
-        package: admin
-        component: web
+        app.kubernetes.io/name: users-web
+        app.kubernetes.io/version: v1
+        app.kubernetes.io/component: web
+        app.kubernetes.io/part-of: users
   namespaceSelector:
     matchNames:
-      - sweetrpg-admin
+      - sweetrpg-users
