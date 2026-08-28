@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>#(title)</title>
   <link rel="stylesheet" href="#(meta.sharedURL)/static/css/main.css">
+  <link rel="stylesheet" href="#(meta.sharedURL)/static/css/avatar-menu.css">
+  <link rel="stylesheet" href="#(meta.sharedURL)/static/css/app-switcher.css">
   <script>
   /* Applied synchronously, before first paint, so the page never flashes the wrong theme.
      Reads the same localStorage key main-web's theme toggle writes - this app has no toggle
@@ -19,27 +21,16 @@
   </script>
 </head>
 <body>
-  <nav class="nav">
-    <div class="nav-brand">
-      <a href="#(meta.rootURL)">
-        <img src="#(meta.sharedURL)/static/img/sweetrpg-logo-black.svg" alt="SweetRPG" class="nav-logo nav-logo-light">
-        <img src="#(meta.sharedURL)/static/img/sweetrpg-logo-white.svg" alt="SweetRPG" class="nav-logo nav-logo-dark">
-      </a>
-      <a href="#(meta.rootURL)">SweetRPG</a>
-    </div>
-    <div class="nav-spacer"></div>
-    <a href="#(meta.loginURL)">Login</a>
-    <a href="#(meta.logoutURL)">Logout</a>
-  </nav>
+  #extend("partials/header")
 
   <main class="page">
     #import("page")
   </main>
 
-  <footer class="footer">
-    <p>SweetRPG Platform</p>
-  </footer>
+  #extend("partials/footer")
 
+  <script src="#(meta.sharedURL)/static/js/avatar-menu.js" defer></script>
+  <script src="#(meta.sharedURL)/static/js/app-switcher.js" defer></script>
   <script src="#(meta.sharedURL)/static/js/theme.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,7 @@
+<footer class="footer">
+  <div class="footer-links">
+    <span>#(meta.l10n.footer_copyright)</span>
+    <a href="https://github.com/sweetrpg" target="_blank" rel="noopener">GitHub</a>
+  </div>
+  <span class="footer-build">#(meta.buildVersion) &middot; built #(meta.buildDate) / #(meta.buildHash)</span>
+</footer>

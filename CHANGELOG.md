@@ -1,4 +1,11 @@
 
+## 0.3.0 - 2026-08-28
+
+### Added
+- Match the platform's shared nav/footer pattern (avatar-menu, app-switcher, branding)
+
+
+
 ## 0.2.6 - 2026-08-28
 
 ### Fixed
