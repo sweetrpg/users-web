@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>#(title)</title>
   <link rel="stylesheet" href="#(meta.sharedURL)/static/css/main.css">
+  <script>
+  /* Applied synchronously, before first paint, so the page never flashes the wrong theme.
+     Reads the same localStorage key main-web's theme toggle writes - this app has no toggle
+     of its own, it only ever respects whatever the visitor already chose there. */
+  (function () {
+    var stored = null;
+    try { stored = localStorage.getItem('sweetrpg_theme_v1'); } catch (e) {}
+    var theme = stored || 'system';
+    var dark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  })();
+  </script>
 </head>
 <body>
   <nav>
@@ -17,12 +29,14 @@
     </div>
   </nav>
 
-  <main>
+  <main class="page">
     #import("page")
   </main>
 
   <footer>
     <p>SweetRPG Platform</p>
   </footer>
+
+  <script src="#(meta.sharedURL)/static/js/theme.js" defer></script>
 </body>
 </html>
