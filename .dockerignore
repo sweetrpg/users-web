@@ -1,0 +1,6 @@
+.git
+.build
+.swiftpm
+*.md
+kubernetes
+.github
