@@ -1,4 +1,11 @@
 
+## 0.2.2 - 2026-08-28
+
+### Fixed
+- Fix base.leaf's unresolved #embed tag and wrong shared CSS path
+
+
+
 ## 0.2.1 - 2026-08-28
 
 ### Fixed
