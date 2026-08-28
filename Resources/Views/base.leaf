@@ -19,21 +19,24 @@
   </script>
 </head>
 <body>
-  <nav>
-    <div class="nav-container">
-      <a href="#(meta.rootURL)" class="logo">SweetRPG</a>
-      <div class="nav-links">
-        <a href="#(meta.loginURL)">Login</a>
-        <a href="#(meta.logoutURL)">Logout</a>
-      </div>
+  <nav class="nav">
+    <div class="nav-brand">
+      <a href="#(meta.rootURL)">
+        <img src="#(meta.sharedURL)/static/img/sweetrpg-logo-black.svg" alt="SweetRPG" class="nav-logo nav-logo-light">
+        <img src="#(meta.sharedURL)/static/img/sweetrpg-logo-white.svg" alt="SweetRPG" class="nav-logo nav-logo-dark">
+      </a>
+      <a href="#(meta.rootURL)">SweetRPG</a>
     </div>
+    <div class="nav-spacer"></div>
+    <a href="#(meta.loginURL)">Login</a>
+    <a href="#(meta.logoutURL)">Logout</a>
   </nav>
 
   <main class="page">
     #import("page")
   </main>
 
-  <footer>
+  <footer class="footer">
     <p>SweetRPG Platform</p>
   </footer>
 

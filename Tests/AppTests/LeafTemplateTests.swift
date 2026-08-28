@@ -29,6 +29,9 @@ struct LeafTemplateTests {
         #expect(body.contains("/static/css/main.css"))
         #expect(body.contains("sweetrpg_theme_v1"))
         #expect(body.contains("/static/js/theme.js"))
+        #expect(body.contains("class=\"nav\""))
+        #expect(body.contains("class=\"nav-brand\""))
+        #expect(body.contains("nav-logo nav-logo-light"))
       }
     }
   }
