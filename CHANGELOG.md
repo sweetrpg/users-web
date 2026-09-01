@@ -1,4 +1,11 @@
 
+## 0.5.1 - 2026-09-01
+
+### Fixed
+- Render Friends as a nav link, not a second brand link
+
+
+
 ## 0.5.0 - 2026-09-01
 
 ### Added
