@@ -22,6 +22,17 @@ struct AuthRequiredMiddlewareTests {
     }
   }
 
+  @Test("an unauthenticated visitor requesting the friends page is redirected to auth-web login")
+  func unauthenticatedVisitorRedirectsToLoginFromFriends() async throws {
+    try await withApp(configure: configure) { app in
+      try await app.testing().test(.GET, "friends") { res in
+        #expect(res.status == .seeOther)
+        let location = res.headers.first(name: .location) ?? ""
+        #expect(location.hasPrefix("/auth/login?return_to="))
+      }
+    }
+  }
+
   @Test("status ping responds ok without requiring authentication")
   func statusPingBypassesAuth() async throws {
     try await withApp(configure: configure) { app in

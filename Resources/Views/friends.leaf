@@ -1,0 +1,81 @@
+#extend("base"):
+  #export("title", "Friends")
+  #export("page"):
+    <div class="friends-container">
+      <h1>#(meta.l10n.friends_title)</h1>
+
+      #if(errorMessage):
+        <div class="error-message">
+          #(errorMessage)
+        </div>
+      #endif
+
+      <section class="friends-list">
+        <h2>#(meta.l10n.friends_current)</h2>
+        #if(count(friends) == 0):
+          <p>#(meta.l10n.friends_none)</p>
+        #else:
+          <ul>
+            #for(friend in friends):
+              <li>
+                <span class="friend-name">#if(friend.name != ""):#(friend.name)#else:#(friend.user_id)#endif</span>
+                #if(friend.email != ""):
+                  <span class="friend-email">#(friend.email)</span>
+                #endif
+                <form method="post" action="#(meta.basePath)/friends/#(friend.user_id)/remove">
+                  <button type="submit" class="btn btn-secondary">#(meta.l10n.friends_remove)</button>
+                </form>
+              </li>
+            #endfor
+          </ul>
+        #endif
+      </section>
+
+      <section class="friends-incoming">
+        <h2>#(meta.l10n.friends_incoming)</h2>
+        #if(count(incoming) == 0):
+          <p>#(meta.l10n.friends_incoming_none)</p>
+        #else:
+          <ul>
+            #for(request in incoming):
+              <li>
+                <span class="friend-name">#if(request.name != ""):#(request.name)#else:#(request.user_id)#endif</span>
+                <form method="post" action="#(meta.basePath)/friends/requests/#(request.id)/accept">
+                  <button type="submit" class="btn btn-primary">#(meta.l10n.friends_accept)</button>
+                </form>
+                <form method="post" action="#(meta.basePath)/friends/requests/#(request.id)/decline">
+                  <button type="submit" class="btn btn-secondary">#(meta.l10n.friends_decline)</button>
+                </form>
+              </li>
+            #endfor
+          </ul>
+        #endif
+      </section>
+
+      <section class="friends-outgoing">
+        <h2>#(meta.l10n.friends_outgoing)</h2>
+        #if(count(outgoing) == 0):
+          <p>#(meta.l10n.friends_outgoing_none)</p>
+        #else:
+          <ul>
+            #for(request in outgoing):
+              <li><span class="friend-name">#if(request.name != ""):#(request.name)#else:#(request.user_id)#endif</span></li>
+            #endfor
+          </ul>
+        #endif
+      </section>
+
+      <section class="friends-add">
+        <h2>#(meta.l10n.friends_add)</h2>
+        <form method="post" action="#(meta.basePath)/friends/requests" class="friends-add-form">
+          <div class="form-field">
+            <label for="user_id">#(meta.l10n.friends_add_label)</label>
+            <input type="text" id="user_id" name="user_id" required>
+            <small>#(meta.l10n.friends_add_help)</small>
+          </div>
+          <button type="submit" class="btn btn-primary">#(meta.l10n.friends_add_submit)</button>
+        </form>
+      </section>
+    </div>
+  #endexport
+#endextend

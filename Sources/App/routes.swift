@@ -6,4 +6,5 @@ func routes(_ app: Application) throws {
   }
 
   try app.register(collection: ProfileController())
+  try app.register(collection: FriendsController())
 }
