@@ -1,4 +1,11 @@
 
+## 0.6.1 - 2026-09-01
+
+### Fixed
+- Show field tips only while editing; live char count on bio
+
+
+
 ## 0.6.0 - 2026-09-01
 
 ### Added

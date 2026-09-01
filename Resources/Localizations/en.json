@@ -4,6 +4,7 @@
   "profile_email": "Email",
   "profile_bio": "Bio",
   "profile_bio_help": "Maximum 500 characters",
+  "profile_bio_count": "{n} / 500 characters",
   "profile_website": "Website",
   "profile_website_none": "No website",
   "profile_website_help": "Must be a valid http(s):// URL",

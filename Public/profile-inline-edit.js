@@ -15,6 +15,7 @@
     nameRequired: container.dataset.labelNameRequired,
     websiteNone: container.dataset.labelWebsiteNone,
     usernameInvalid: container.dataset.labelUsernameInvalid,
+    bioCount: container.dataset.labelBioCount || '{n} / 500 characters',
   };
   var usernameRe = /^[a-z0-9_-]{3,30}$/;
 
@@ -123,16 +124,36 @@
     input.focus();
     if (input.select) input.select();
 
+    // Tips are hidden until a field is active (CSS keys off this class).
+    fieldEl.classList.add('profile-field-editing');
+
+    var help = fieldEl.querySelector('small');
+    var helpBase = help ? help.textContent : '';
+    function updateCount() {
+      if (help) help.textContent = labels.bioCount.replace('{n}', input.value.length);
+    }
+    if (field === 'bio' && help) {
+      updateCount();
+      input.addEventListener('input', updateCount);
+    }
+
+    function deactivate() {
+      fieldEl.classList.remove('profile-field-editing');
+      if (field === 'bio' && help) help.textContent = helpBase;
+    }
+
     var committed = false;
     function commit() {
       if (committed) return;
       committed = true;
+      deactivate();
       save(field, input.value, fieldEl);
     }
     input.addEventListener('blur', commit);
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
         committed = true;
+        deactivate();
         display(fieldEl, field, current);
       } else if (e.key === 'Enter' && field !== 'bio') {
         input.blur();
