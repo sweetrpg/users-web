@@ -11,38 +11,42 @@ struct FriendsController: RouteCollection {
   }
 
   private struct FriendsView: Encodable {
+    let user: LeafUser
     let meta: PageMeta
     let friends: [Friend]
     let incoming: [FriendRequest]
     let outgoing: [FriendRequest]
+    let friendCount: Int
+    let incomingCount: Int
+    let outgoingCount: Int
+    /// Which left-rail panel to show first (server-side default; JS also honours location.hash).
+    let activePanel: String
     let errorMessage: String?
   }
 
   func showFriends(req: Request) async throws -> View {
     let user = try await requireUser(req)
-    return try await renderFriends(req: req, user: user, errorMessage: nil)
+    return try await renderFriends(req: req, user: user, activePanel: "friends", errorMessage: nil)
   }
 
   func sendRequest(req: Request) async throws -> Response {
     let user = try await requireUser(req)
 
     struct SendForm: Content {
-      let userID: String
-
-      enum CodingKeys: String, CodingKey {
-        case userID = "user_id"
-      }
+      let identifier: String
     }
     let form = try req.content.decode(SendForm.self)
-    let target = form.userID.trimmingCharacters(in: .whitespacesAndNewlines)
+    let identifier = form.identifier.trimmingCharacters(in: .whitespacesAndNewlines)
 
     do {
-      try await req.usersAPI.sendFriendRequest(accessToken: user.accessToken, targetUserID: target)
+      try await req.usersAPI.sendFriendRequest(
+        accessToken: user.accessToken, identifier: identifier)
       return req.redirectLocal(to: "/friends")
     } catch let error as Abort where isClientError(error) {
       let message = sendErrorMessage(for: error.status, l10n: req.l10n)
-      return try await renderFriends(req: req, user: user, errorMessage: message).encodeResponse(
-        for: req)
+      return try await renderFriends(
+        req: req, user: user, activePanel: "add", errorMessage: message
+      ).encodeResponse(for: req)
     }
   }
 
@@ -62,8 +66,9 @@ struct FriendsController: RouteCollection {
       return req.redirectLocal(to: "/friends")
     } catch let error as Abort where isClientError(error) {
       let message = req.l10n["friends_error_action"] ?? "That action could not be completed."
-      return try await renderFriends(req: req, user: user, errorMessage: message).encodeResponse(
-        for: req)
+      return try await renderFriends(
+        req: req, user: user, activePanel: "friends", errorMessage: message
+      ).encodeResponse(for: req)
     }
   }
 
@@ -78,8 +83,9 @@ struct FriendsController: RouteCollection {
       return req.redirectLocal(to: "/friends")
     } catch let error as Abort where isClientError(error) {
       let message = req.l10n["friends_error_action"] ?? "That action could not be completed."
-      return try await renderFriends(req: req, user: user, errorMessage: message).encodeResponse(
-        for: req)
+      return try await renderFriends(
+        req: req, user: user, activePanel: "incoming", errorMessage: message
+      ).encodeResponse(for: req)
     }
   }
 
@@ -90,28 +96,37 @@ struct FriendsController: RouteCollection {
     return user
   }
 
-  private func renderFriends(req: Request, user: SessionUser, errorMessage: String?) async throws
-    -> View
-  {
+  private func renderFriends(
+    req: Request, user: SessionUser, activePanel: String, errorMessage: String?
+  ) async throws -> View {
     do {
       async let friends = req.usersAPI.fetchFriends(accessToken: user.accessToken)
       async let requests = req.usersAPI.fetchFriendRequests(accessToken: user.accessToken)
+      let friendList = try await friends
+      let requestLists = try await requests
       let view = FriendsView(
+        user: LeafUser(user),
         meta: PageMeta(req),
-        friends: try await friends,
-        incoming: try await requests.incoming,
-        outgoing: try await requests.outgoing,
+        friends: friendList,
+        incoming: requestLists.incoming,
+        outgoing: requestLists.outgoing,
+        friendCount: friendList.count,
+        incomingCount: requestLists.incoming.count,
+        outgoingCount: requestLists.outgoing.count,
+        activePanel: activePanel,
         errorMessage: errorMessage
       )
       return try await req.view.render("friends", view)
     } catch {
       struct ErrorView: Encodable {
+        let user: LeafUser
         let meta: PageMeta
         let errorMessage: String
       }
       return try await req.view.render(
         "friends-error",
         ErrorView(
+          user: LeafUser(user),
           meta: PageMeta(req),
           errorMessage: req.l10n["friends_error_load"] ?? "Failed to load friends")
       )
@@ -126,8 +141,8 @@ struct FriendsController: RouteCollection {
     let key: String
     switch status {
     case .conflict: key = "friends_error_duplicate"
-    case .notFound: key = "friends_error_no_user"
-    default: key = "friends_error_invalid_id"
+    case .notFound: key = "friends_error_no_match"
+    default: key = "friends_error_no_match"
     }
     return l10n[key] ?? key
   }

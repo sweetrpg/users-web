@@ -9,17 +9,27 @@
         data-name="#(profile.name)"
         data-bio="#(profile.bio)"
         data-website="#(profile.website)"
+        data-username="#(profile.username)"
         data-label-saved="#(meta.l10n.profile_saved)"
         data-label-save-failed="#(meta.l10n.profile_save_failed)"
         data-label-network-error="#(meta.l10n.profile_network_error)"
         data-label-name-required="#(meta.l10n.profile_name_required)"
         data-label-website-none="#(meta.l10n.profile_website_none)"
+        data-label-username-invalid="#(meta.l10n.profile_username_invalid)"
       >
         <div class="profile-field" data-field="name">
           <label>#(meta.l10n.profile_name)</label>
           <div class="profile-field-value" tabindex="0" title="#(meta.l10n.profile_click_to_edit)">
             <span class="profile-field-display">#(profile.name)</span>
           </div>
+        </div>
+
+        <div class="profile-field" data-field="username">
+          <label>#(meta.l10n.profile_username)</label>
+          <div class="profile-field-value" tabindex="0" title="#(meta.l10n.profile_click_to_edit)">
+            <span class="profile-field-display">#(profile.username)</span>
+          </div>
+          <small>#(meta.l10n.profile_username_help)</small>
         </div>
 
         <div class="profile-field">
