@@ -1,81 +1,159 @@
 #extend("base"):
   #export("title", "Friends")
   #export("page"):
-    <div class="friends-container">
+    <div class="friends-container js-friends-tabs">
       <h1>#(meta.l10n.friends_title)</h1>
 
       #if(errorMessage):
-        <div class="error-message">
-          #(errorMessage)
-        </div>
+        <div class="error-message">#(errorMessage)</div>
       #endif
 
-      <section class="friends-list">
-        <h2>#(meta.l10n.friends_current)</h2>
-        #if(count(friends) == 0):
-          <p>#(meta.l10n.friends_none)</p>
-        #else:
-          <ul>
-            #for(friend in friends):
-              <li>
-                <span class="friend-name">#if(friend.name != ""):#(friend.name)#else:#(friend.user_id)#endif</span>
-                #if(friend.email != ""):
-                  <span class="friend-email">#(friend.email)</span>
-                #endif
-                <form method="post" action="#(meta.basePath)/friends/#(friend.user_id)/remove">
-                  <button type="submit" class="btn btn-secondary">#(meta.l10n.friends_remove)</button>
-                </form>
-              </li>
-            #endfor
-          </ul>
-        #endif
-      </section>
+      <div class="friends-layout">
+        <nav class="friends-nav" aria-label="#(meta.l10n.friends_title)">
+          <a href="#friends" data-panel="friends"#if(activePanel == "friends"): aria-current="page"#endif>
+            <span class="friends-nav-title">#(meta.l10n.friends_current)</span>
+            #if(friendCount > 0):
+              <span class="friends-nav-sub">#(friendCount) #if(friendCount != 1):#(meta.l10n.friends_noun_plural)#else:#(meta.l10n.friends_noun)#endif</span>
+            #endif
+          </a>
+          <a href="#incoming" data-panel="incoming"#if(activePanel == "incoming"): aria-current="page"#endif>
+            <span class="friends-nav-title">#(meta.l10n.friends_incoming)</span>
+            #if(incomingCount > 0):
+              <span class="friends-nav-sub">#(incomingCount) #if(incomingCount != 1):#(meta.l10n.friends_request_plural)#else:#(meta.l10n.friends_request_noun)#endif</span>
+            #endif
+          </a>
+          <a href="#outgoing" data-panel="outgoing"#if(activePanel == "outgoing"): aria-current="page"#endif>
+            <span class="friends-nav-title">#(meta.l10n.friends_outgoing)</span>
+            #if(outgoingCount > 0):
+              <span class="friends-nav-sub">#(outgoingCount) #if(outgoingCount != 1):#(meta.l10n.friends_request_plural)#else:#(meta.l10n.friends_request_noun)#endif</span>
+            #endif
+          </a>
+          <a href="#add" data-panel="add"#if(activePanel == "add"): aria-current="page"#endif>
+            <span class="friends-nav-title">#(meta.l10n.friends_add)</span>
+          </a>
+        </nav>
 
-      <section class="friends-incoming">
-        <h2>#(meta.l10n.friends_incoming)</h2>
-        #if(count(incoming) == 0):
-          <p>#(meta.l10n.friends_incoming_none)</p>
-        #else:
-          <ul>
-            #for(request in incoming):
-              <li>
-                <span class="friend-name">#if(request.name != ""):#(request.name)#else:#(request.user_id)#endif</span>
-                <form method="post" action="#(meta.basePath)/friends/requests/#(request.id)/accept">
-                  <button type="submit" class="btn btn-primary">#(meta.l10n.friends_accept)</button>
-                </form>
-                <form method="post" action="#(meta.basePath)/friends/requests/#(request.id)/decline">
-                  <button type="submit" class="btn btn-secondary">#(meta.l10n.friends_decline)</button>
-                </form>
-              </li>
-            #endfor
-          </ul>
-        #endif
-      </section>
+        <div class="friends-panels">
+          <section data-panel="friends"#if(activePanel == "friends"): class="is-active"#endif>
+            <h2>#(meta.l10n.friends_current)</h2>
+            #if(friendCount == 0):
+              <p class="friends-empty">#(meta.l10n.friends_none)</p>
+            #else:
+              <ul class="friends-list">
+                #for(friend in friends):
+                  <li>
+                    <span class="friend-name">#if(friend.name != ""):#(friend.name)#else:#(friend.user_id)#endif</span>
+                    #if(friend.email != ""):<span class="friend-email">#(friend.email)</span>#endif
+                    <form method="post" action="#(meta.basePath)/friends/#(friend.user_id)/remove">
+                      <button type="submit" class="btn btn-secondary">#(meta.l10n.friends_remove)</button>
+                    </form>
+                  </li>
+                #endfor
+              </ul>
+            #endif
+          </section>
 
-      <section class="friends-outgoing">
-        <h2>#(meta.l10n.friends_outgoing)</h2>
-        #if(count(outgoing) == 0):
-          <p>#(meta.l10n.friends_outgoing_none)</p>
-        #else:
-          <ul>
-            #for(request in outgoing):
-              <li><span class="friend-name">#if(request.name != ""):#(request.name)#else:#(request.user_id)#endif</span></li>
-            #endfor
-          </ul>
-        #endif
-      </section>
+          <section data-panel="incoming"#if(activePanel == "incoming"): class="is-active"#endif>
+            <h2>#(meta.l10n.friends_incoming)</h2>
+            #if(incomingCount == 0):
+              <p class="friends-empty">#(meta.l10n.friends_incoming_none)</p>
+            #else:
+              <ul class="friends-list">
+                #for(request in incoming):
+                  <li>
+                    <span class="friend-name">#if(request.name != ""):#(request.name)#else:#(request.user_id)#endif</span>
+                    <form method="post" action="#(meta.basePath)/friends/requests/#(request.id)/accept">
+                      <button type="submit" class="btn btn-primary">#(meta.l10n.friends_accept)</button>
+                    </form>
+                    <form method="post" action="#(meta.basePath)/friends/requests/#(request.id)/decline">
+                      <button type="submit" class="btn btn-secondary">#(meta.l10n.friends_decline)</button>
+                    </form>
+                  </li>
+                #endfor
+              </ul>
+            #endif
+          </section>
 
-      <section class="friends-add">
-        <h2>#(meta.l10n.friends_add)</h2>
-        <form method="post" action="#(meta.basePath)/friends/requests" class="friends-add-form">
-          <div class="form-field">
-            <label for="user_id">#(meta.l10n.friends_add_label)</label>
-            <input type="text" id="user_id" name="user_id" required>
-            <small>#(meta.l10n.friends_add_help)</small>
-          </div>
-          <button type="submit" class="btn btn-primary">#(meta.l10n.friends_add_submit)</button>
-        </form>
-      </section>
+          <section data-panel="outgoing"#if(activePanel == "outgoing"): class="is-active"#endif>
+            <h2>#(meta.l10n.friends_outgoing)</h2>
+            #if(outgoingCount == 0):
+              <p class="friends-empty">#(meta.l10n.friends_outgoing_none)</p>
+            #else:
+              <ul class="friends-list">
+                #for(request in outgoing):
+                  <li><span class="friend-name">#if(request.name != ""):#(request.name)#else:#(request.user_id)#endif</span></li>
+                #endfor
+              </ul>
+            #endif
+          </section>
+
+          <section data-panel="add"#if(activePanel == "add"): class="is-active"#endif>
+            <h2>#(meta.l10n.friends_add)</h2>
+            <form method="post" action="#(meta.basePath)/friends/requests" class="friends-add-form">
+              <input type="text" name="identifier" class="input friends-add-input"
+                     placeholder="#(meta.l10n.friends_add_placeholder)" autocomplete="off" required>
+              <button type="submit" class="btn btn-primary">#(meta.l10n.friends_add_submit)</button>
+            </form>
+          </section>
+        </div>
+      </div>
     </div>
+
+    <noscript><style>.friends-panels section { display: block !important; }</style></noscript>
+    <script src="#(meta.basePath)/friends-tabs.js" defer></script>
+
+    <style>
+      .friends-layout {
+        display: grid;
+        grid-template-columns: minmax(160px, 220px) 1fr;
+        gap: var(--space-6);
+        align-items: start;
+        max-width: 720px;
+      }
+      .friends-nav { display: flex; flex-direction: column; gap: var(--space-2); text-align: right; }
+      .friends-nav a {
+        display: block;
+        padding: var(--space-1) var(--space-2);
+        border-radius: var(--radius-md);
+        border-right: 3px solid transparent;
+        text-decoration: none;
+        color: var(--color-neutral-600);
+      }
+      .friends-nav a:hover { background: var(--color-surface); color: inherit; }
+      .friends-nav a[aria-current="page"] {
+        border-right-color: var(--color-accent);
+        color: inherit;
+        background: var(--color-surface);
+      }
+      .friends-nav-title { display: block; font-weight: 600; }
+      .friends-nav-sub { display: block; font-size: 13px; color: var(--color-neutral-600); }
+      .friends-panels section { display: none; }
+      .friends-panels section.is-active { display: block; }
+      .friends-panels h2 { margin-top: 0; }
+      .friends-empty { color: var(--color-neutral-600); }
+      .friends-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+      .friends-list li { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+      .friend-name { font-weight: 600; }
+      .friend-email { color: var(--color-neutral-600); font-size: 13px; }
+      .friends-list form { margin: 0; }
+      .friends-add-form { display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; }
+      .friends-add-input {
+        border: none;
+        border-bottom: 1px solid var(--color-divider);
+        border-radius: 0;
+        background: transparent;
+        font-size: 18px;
+        padding: var(--space-2) 0;
+        min-width: 280px;
+        flex: 1;
+      }
+      .friends-add-input:focus { outline: none; border-bottom-color: var(--color-accent); }
+      @media (max-width: 560px) {
+        .friends-layout { grid-template-columns: 1fr; }
+        .friends-nav { text-align: left; }
+        .friends-nav a { border-right: none; border-left: 3px solid transparent; }
+        .friends-nav a[aria-current="page"] { border-left-color: var(--color-accent); border-right: none; }
+      }
+    </style>
   #endexport
 #endextend
