@@ -16,6 +16,7 @@
         data-label-name-required="#(meta.l10n.profile_name_required)"
         data-label-website-none="#(meta.l10n.profile_website_none)"
         data-label-username-invalid="#(meta.l10n.profile_username_invalid)"
+        data-label-bio-count="#(meta.l10n.profile_bio_count)"
       >
         <div class="profile-field" data-field="name">
           <label>#(meta.l10n.profile_name)</label>
@@ -89,7 +90,9 @@
       }
       .profile-field-error { color: #7a1212; font-size: 13px; margin-top: var(--space-1); }
       [data-theme="dark"] .profile-field-error { color: #f5a3a3; }
-      .profile-field small { display: block; color: var(--color-neutral-600); margin-top: var(--space-1); }
+      /* Field tips only show while that field is being edited. */
+      .profile-field small { display: none; color: var(--color-neutral-600); margin-top: var(--space-1); }
+      .profile-field.profile-field-editing small { display: block; }
     </style>
   #endexport
 #endextend
