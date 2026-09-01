@@ -1,4 +1,11 @@
 
+## 0.6.0 - 2026-09-01
+
+### Added
+- Tabbed friends page, flexible lookup, username on profile
+
+
+
 ## 0.5.1 - 2026-09-01
 
 ### Fixed
