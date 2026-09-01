@@ -1,4 +1,11 @@
 
+## 0.5.0 - 2026-09-01
+
+### Added
+- Friends section - list, requests, send, remove
+
+
+
 ## 0.4.0 - 2026-08-28
 
 ### Added
