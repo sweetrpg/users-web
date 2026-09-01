@@ -5,8 +5,8 @@
       <img src="#(meta.sharedURL)/static/img/sweetrpg-logo-white.svg" alt="SweetRPG" class="nav-logo nav-logo-dark">
     </a>
     <a href="#(meta.basePath)/profile">#(meta.l10n.nav_brand)</a>
-    <a href="#(meta.basePath)/friends">#(meta.l10n.friends_title)</a>
   </div>
+  <a href="#(meta.basePath)/friends">#(meta.l10n.friends_title)</a>
   <div class="nav-spacer"></div>
   <div class="app-switcher">
     <button type="button" class="app-switcher-trigger" aria-label="#(meta.l10n.nav_switch_app)">
