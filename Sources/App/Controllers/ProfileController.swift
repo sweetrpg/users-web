@@ -55,6 +55,7 @@ struct ProfileController: RouteCollection {
       let name: String
       let bio: String
       let website: String
+      let username: String?
     }
     let updateReq = try req.content.decode(UpdateRequest.self)
 
@@ -63,7 +64,8 @@ struct ProfileController: RouteCollection {
         accessToken: user.accessToken,
         name: updateReq.name,
         bio: updateReq.bio,
-        website: updateReq.website
+        website: updateReq.website,
+        username: updateReq.username ?? ""
       )
       let res = Response(status: .ok)
       try res.content.encode(profile)

@@ -6,6 +6,7 @@
     name: container.dataset.name || '',
     bio: container.dataset.bio || '',
     website: container.dataset.website || '',
+    username: container.dataset.username || '',
   };
   var labels = {
     saved: container.dataset.labelSaved,
@@ -13,7 +14,9 @@
     networkError: container.dataset.labelNetworkError,
     nameRequired: container.dataset.labelNameRequired,
     websiteNone: container.dataset.labelWebsiteNone,
+    usernameInvalid: container.dataset.labelUsernameInvalid,
   };
+  var usernameRe = /^[a-z0-9_-]{3,30}$/;
 
   function display(fieldEl, field, value) {
     var valueEl = fieldEl.querySelector('.profile-field-value');
@@ -54,8 +57,18 @@
       display(fieldEl, field, state[field]);
       return;
     }
+    if (field === 'username' && value.trim() && !usernameRe.test(value.trim())) {
+      showError(fieldEl, labels.usernameInvalid);
+      display(fieldEl, field, state[field]);
+      return;
+    }
 
-    var payload = {name: state.name, bio: state.bio, website: state.website};
+    var payload = {
+      name: state.name,
+      bio: state.bio,
+      website: state.website,
+      username: state.username,
+    };
     payload[field] = value;
 
     fieldEl.classList.add('profile-field-saving');
@@ -84,6 +97,7 @@
         state.name = result.data.name;
         state.bio = result.data.bio;
         state.website = result.data.website;
+        state.username = result.data.username != null ? result.data.username : state.username;
         display(fieldEl, field, state[field]);
         flashSaved(fieldEl);
       })

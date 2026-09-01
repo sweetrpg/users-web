@@ -21,11 +21,12 @@ struct UsersAPIClient {
   }
 
   func updateProfile(
-    accessToken: String, name: String, bio: String, website: String
+    accessToken: String, name: String, bio: String, website: String, username: String
   ) async throws -> Profile {
     let response = try await client.patch(URI(string: baseURL + "/profile")) { req in
       req.headers.bearerAuthorization = BearerAuthorization(token: accessToken)
-      try req.content.encode(UpdateProfileRequest(name: name, bio: bio, website: website))
+      try req.content.encode(
+        UpdateProfileRequest(name: name, bio: bio, website: website, username: username))
     }
     guard (200..<300).contains(response.status.code) else {
       throw Abort(
@@ -50,10 +51,11 @@ struct UsersAPIClient {
     return try response.content.decode(FriendRequestsResponse.self)
   }
 
-  func sendFriendRequest(accessToken: String, targetUserID: String) async throws {
+  /// identifier may be a User.id, an email, or a username - users-api resolves it.
+  func sendFriendRequest(accessToken: String, identifier: String) async throws {
     let response = try await client.post(URI(string: baseURL + "/friends/requests")) { req in
       req.headers.bearerAuthorization = BearerAuthorization(token: accessToken)
-      try req.content.encode(SendFriendRequestBody(userID: targetUserID))
+      try req.content.encode(SendFriendRequestBody(identifier: identifier))
     }
     try Self.ensureSuccess(response)
   }
@@ -87,14 +89,11 @@ private struct UpdateProfileRequest: Content {
   let name: String
   let bio: String
   let website: String
+  let username: String
 }
 
 private struct SendFriendRequestBody: Content {
-  let userID: String
-
-  enum CodingKeys: String, CodingKey {
-    case userID = "user_id"
-  }
+  let identifier: String
 }
 
 extension Request {
