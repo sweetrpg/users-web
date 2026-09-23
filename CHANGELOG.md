@@ -1,4 +1,15 @@
 
+## 0.7.0 - 2026-09-23
+
+### Added
+- Add account settings UI for linked login methods
+
+
+### Fixed
+- Call users-api identities routes under /api prefix
+
+
+
 ## 0.6.1 - 2026-09-01
 
 ### Fixed
