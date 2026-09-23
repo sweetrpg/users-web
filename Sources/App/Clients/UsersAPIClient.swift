@@ -77,8 +77,10 @@ struct UsersAPIClient {
     try Self.ensureSuccess(response)
   }
 
+  // users-api registers these under /api/identities specifically (server/identities.go) -
+  // unlike /profile and /friends, which have no /api/ segment on this same internal DNS call.
   func fetchIdentities(accessToken: String) async throws -> [Identity] {
-    let response = try await client.get(URI(string: baseURL + "/identities")) { req in
+    let response = try await client.get(URI(string: baseURL + "/api/identities")) { req in
       req.headers.bearerAuthorization = BearerAuthorization(token: accessToken)
     }
     try Self.ensureSuccess(response)
@@ -88,7 +90,7 @@ struct UsersAPIClient {
   /// Fails with .conflict if this would leave the caller with zero login methods - the
   /// server-side guard the last-remaining-identity UI check mirrors, not the sole enforcement.
   func unlinkIdentity(accessToken: String, id: String) async throws {
-    let response = try await client.delete(URI(string: baseURL + "/identities/\(id)")) { req in
+    let response = try await client.delete(URI(string: baseURL + "/api/identities/\(id)")) { req in
       req.headers.bearerAuthorization = BearerAuthorization(token: accessToken)
     }
     try Self.ensureSuccess(response)
