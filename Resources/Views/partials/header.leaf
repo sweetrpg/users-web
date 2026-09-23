@@ -44,10 +44,11 @@
           #endif
         </div>
         <hr class="avatar-menu-divider">
+        <a class="avatar-menu-item" href="#(meta.basePath)/settings">#(meta.l10n.nav_account_settings)</a>
         #if(user.isAdmin):
         <a class="avatar-menu-item" href="#(meta.adminURL)">#(meta.l10n.user_administration)</a>
-        <hr class="avatar-menu-divider">
         #endif
+        <hr class="avatar-menu-divider">
         <form action="#(meta.logoutURL)" method="post" class="avatar-menu-item-form">
           <button type="submit" class="avatar-menu-item avatar-menu-item-danger">#(meta.l10n.user_log_out)</button>
         </form>
