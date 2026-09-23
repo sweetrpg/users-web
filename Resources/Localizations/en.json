@@ -19,6 +19,7 @@
   "profile_username_help": "3-30 characters: lowercase letters, digits, hyphen, underscore",
   "profile_username_invalid": "Username must be 3-30 characters of lowercase letters, digits, hyphen, or underscore",
   "nav_brand": "Profile",
+  "nav_account_settings": "Account Settings",
   "nav_switch_app": "Switch app",
   "nav_app_main": "Main",
   "nav_app_catalog": "Catalog",
@@ -55,5 +56,19 @@
   "friends_error_load": "Failed to load friends.",
   "friends_error_action": "That action could not be completed.",
   "friends_error_duplicate": "You already have a request or friendship with that user.",
-  "friends_error_no_match": "No user found for that id, email, or username."
+  "friends_error_no_match": "No user found for that id, email, or username.",
+  "settings_title": "Account Settings",
+  "settings_identities_title": "Linked Login Methods",
+  "settings_linked_on": "Linked",
+  "settings_link_another": "Link another login method",
+  "settings_unlink": "Unlink",
+  "settings_unlink_last_disabled": "You can't remove your last login method",
+  "settings_link_success": "Login method linked successfully.",
+  "settings_link_conflict": "That login method is already linked to a different account.",
+  "settings_link_error": "Something went wrong linking that login method. Try again.",
+  "settings_error_title": "Unable to Load Account Settings",
+  "settings_error_retry": "Try Again",
+  "settings_error_load": "Failed to load account settings.",
+  "settings_error_action": "That action could not be completed.",
+  "settings_error_last_identity": "You can't remove your last login method."
 }

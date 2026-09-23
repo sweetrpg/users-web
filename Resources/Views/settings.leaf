@@ -1,0 +1,60 @@
+#extend("base"):
+  #export("title", "Account Settings")
+  #export("page"):
+    <div class="settings-container">
+      <h1>#(meta.l10n.settings_title)</h1>
+
+      #if(linkOutcome == "conflict"):
+        <div class="error-message">#(meta.l10n.settings_link_conflict)</div>
+      #elseif(linkOutcome == "error"):
+        <div class="error-message">#(meta.l10n.settings_link_error)</div>
+      #elseif(linkOutcome == "success"):
+        <div class="success-message">#(meta.l10n.settings_link_success)</div>
+      #endif
+
+      #if(errorMessage):
+        <div class="error-message">#(errorMessage)</div>
+      #endif
+
+      <section class="settings-section">
+        <h2>#(meta.l10n.settings_identities_title)</h2>
+
+        <ul class="identities-list">
+          #for(identity in identities):
+            <li class="identities-item">
+              <div>
+                <span class="identities-connection">#(identity.connectionType)</span>
+                <span class="identities-linked-at">#(meta.l10n.settings_linked_on) #(identity.linkedAt)</span>
+              </div>
+              #if(identities.count > 1):
+                <form method="post" action="#(meta.basePath)/settings/identities/#(identity.id)/unlink">
+                  <button type="submit" class="btn btn-secondary">#(meta.l10n.settings_unlink)</button>
+                </form>
+              #else:
+                <button type="button" class="btn btn-secondary" disabled title="#(meta.l10n.settings_unlink_last_disabled)">#(meta.l10n.settings_unlink)</button>
+              #endif
+            </li>
+          #endfor
+        </ul>
+
+        <a href="#(linkStartURL)" class="btn btn-primary">#(meta.l10n.settings_link_another)</a>
+      </section>
+    </div>
+
+    <style>
+      .settings-container { max-width: 560px; margin: 0 auto; }
+      .settings-section { margin-top: var(--space-4); }
+      .identities-list { list-style: none; margin: 0 0 var(--space-4); padding: 0; }
+      .identities-item {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: var(--space-2) 0; border-bottom: 1px solid var(--color-divider);
+        gap: var(--space-3);
+      }
+      .identities-connection { font-weight: 600; margin-right: var(--space-2); }
+      .identities-linked-at { color: var(--color-neutral-600); font-size: 13px; }
+      .error-message { color: #7a1212; margin-bottom: var(--space-3); }
+      [data-theme="dark"] .error-message { color: #f5a3a3; }
+      .success-message { color: var(--color-accent); margin-bottom: var(--space-3); }
+    </style>
+  #endexport
+#endextend
