@@ -9,6 +9,11 @@ struct LeafTemplateTests {
   @Test("profile-error renders base's page block instead of leaking an unresolved Leaf tag")
   func profileErrorRendersCleanly() async throws {
     try await withApp { app in
+      // withApp (unlike the real app's configure(_:)) never calls I18n.loadTables() itself -
+      // without this, meta.l10n lookups silently return empty strings instead of failing loudly,
+      // and this test only ever passed by accident when some other test happened to populate
+      // I18n's process-shared table first.
+      try I18n.loadTables()
       app.views.use(.leaf)
       app.get("test-render") { req -> View in
         struct ErrorView: Encodable {
