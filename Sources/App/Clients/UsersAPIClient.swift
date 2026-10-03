@@ -84,7 +84,7 @@ struct UsersAPIClient {
       req.headers.bearerAuthorization = BearerAuthorization(token: accessToken)
     }
     try Self.ensureSuccess(response)
-    return try response.content.decode(IdentitiesResponse.self).identities
+    return try response.content.decode([Identity].self)
   }
 
   /// Fails with .conflict if this would leave the caller with zero login methods - the
