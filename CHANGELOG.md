@@ -1,4 +1,11 @@
 
+## 0.7.1 - 2026-10-03
+
+### Fixed
+- Decode users-api's actual identities response shape
+
+
+
 ## 0.7.0 - 2026-09-23
 
 ### Added
