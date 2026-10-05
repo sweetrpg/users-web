@@ -15,6 +15,12 @@ struct SettingsController: RouteCollection {
     let user: LeafUser
     let meta: PageMeta
     let identities: [Identity]
+    /// Computed here rather than as `identities.count > 1` in the template - Leaf has no
+    /// `.count` dotted property path on arrays (silently resolves empty rather than erroring),
+    /// and its `count()` tag function, while correct in isolation, triggered an intermittent
+    /// `-[__NSCFNumber count]: unrecognized selector` crash under Swift Testing's parallel test
+    /// execution. A plain precomputed Bool sidesteps both problems.
+    let canUnlink: Bool
     let linkStartURL: String
     let linkOutcome: String?
     let errorMessage: String?
@@ -76,6 +82,7 @@ struct SettingsController: RouteCollection {
         user: LeafUser(user),
         meta: PageMeta(req),
         identities: identities,
+        canUnlink: identities.count > 1,
         linkStartURL: linkStartURL,
         linkOutcome: linkOutcome,
         errorMessage: errorMessage
