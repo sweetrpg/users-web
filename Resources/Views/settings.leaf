@@ -26,7 +26,7 @@
                 <span class="identities-connection">#(identity.connectionType)</span>
                 <span class="identities-linked-at">#(meta.l10n.settings_linked_on) #(identity.linkedAt)</span>
               </div>
-              #if(identities.count > 1):
+              #if(canUnlink):
                 <form method="post" action="#(meta.basePath)/settings/identities/#(identity.id)/unlink">
                   <button type="submit" class="btn btn-secondary">#(meta.l10n.settings_unlink)</button>
                 </form>
