@@ -4,6 +4,7 @@ struct PageMeta: Content {
   let basePath: String
   let rootURL: String
   let sharedURL: String
+  let feedbackApiURL: String
   let buildVersion: String
   let buildDate: String
   let buildHash: String
@@ -17,6 +18,7 @@ struct PageMeta: Content {
     self.basePath = req.basePath
     self.rootURL = req.rootURL
     self.sharedURL = req.sharedURL
+    self.feedbackApiURL = req.feedbackApiURL
     self.buildVersion = req.buildInfo.version
     self.buildDate = req.buildInfo.date
     self.buildHash = String(req.buildInfo.sha.prefix(8))
