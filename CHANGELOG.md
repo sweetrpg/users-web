@@ -1,4 +1,16 @@
 
+## 0.8.0 - 2026-10-08
+
+### Added
+- Embed shared feedback widget in avatar menu
+
+
+### Fixed
+- Make LeafTemplateTests populate I18n before asserting on l10n text
+- Unlink buttons stayed disabled regardless of identity count
+
+
+
 ## 0.7.1 - 2026-10-03
 
 ### Fixed
