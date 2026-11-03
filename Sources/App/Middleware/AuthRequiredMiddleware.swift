@@ -2,7 +2,9 @@ import Vapor
 
 struct AuthRequiredMiddleware: AsyncMiddleware {
   private static let unauthenticatedPaths: Set<String> = [
-    "/status/ping"
+    "/status/ping",
+    // Prometheus scrapes the pod directly with no session.
+    "/metrics",
   ]
 
   func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {

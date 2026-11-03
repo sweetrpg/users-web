@@ -8,6 +8,8 @@ public func configure(_ app: Application) async throws {
   app.http.server.configuration.hostname = "0.0.0.0"
   app.http.server.configuration.port = Environment.get("PORT").flatMap(Int.init) ?? 8080
 
+  MetricsSetup.bootstrap(app)
+
   app.views.use(.leaf)
 
   app.lingoVapor.configuration = .init(
