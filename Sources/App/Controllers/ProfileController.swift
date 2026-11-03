@@ -27,16 +27,8 @@ struct ProfileController: RouteCollection {
       )
     }
 
-    struct ProfileView: Encodable {
-      let user: LeafUser
-      let meta: PageMeta
-      let profile: Profile
-      let errorMessage: String?
-    }
     return try await req.view.render(
-      "profile",
-      ProfileView(user: LeafUser(user), meta: PageMeta(req), profile: profile, errorMessage: nil)
-    )
+      "profile", ProfileView(req: req, user: LeafUser(user), profile: profile))
   }
 
   /// Backs the profile page's inline-edit fields (see profile.leaf's script) - each field save
