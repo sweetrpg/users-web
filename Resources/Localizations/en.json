@@ -71,5 +71,12 @@
   "settings_error_retry": "Try Again",
   "settings_error_load": "Failed to load account settings.",
   "settings_error_action": "That action could not be completed.",
-  "settings_error_last_identity": "You can't remove your last login method."
+  "settings_error_last_identity": "You can't remove your last login method.",
+  "profile_terms": "Terms of Service",
+  "profile_terms_accepted_prefix": "Accepted version ",
+  "profile_terms_accepted_middle": " on ",
+  "profile_terms_accepted_suffix": "",
+  "profile_terms_not_recorded": "Not recorded yet",
+  "profile_terms_link": "Read the Terms of Service",
+  "profile_privacy_link": "Read the Privacy Policy"
 }

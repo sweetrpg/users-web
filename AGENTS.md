@@ -5,22 +5,35 @@ working in this repository.
 
 ## About This Project
 
-`users-web` is a planned server-rendered Vapor (Swift) frontend for the SweetRPG platform's
-user-profile domain. As of this writing it has no application source - `Package.swift`,
-`Sources/`, and `Tests/` don't exist yet. What does exist is infrastructure scaffolding added
-ahead of the app itself (see `sweetrpg/platform`'s `repo-setup-standard` skill): CI/release
-workflows and Kubernetes manifests, modeled on
-[`catalog-web`](https://github.com/sweetrpg/catalog-web) and
-[`admin-web`](https://github.com/sweetrpg/admin-web) - same stack, same
-path-prefix-behind-Traefik architecture, same read-only shared-session pattern once a login
-integration is added. Read those repos' own `AGENTS.md` files for the conventions this repo is
-expected to follow once real source lands, rather than duplicating them here speculatively.
+`users-web` is the server-rendered Vapor (Swift, Leaf templates) frontend for the SweetRPG
+platform's user-profile domain, served behind Traefik at the `/users` path prefix. It has three
+pages, each a controller in `Sources/App/Controllers` with a template in `Resources/Views`:
 
-The Kubernetes manifests (`kubernetes/base/`, `kubernetes/overlays/{dev,local}/`) were added by
-`sweetrpg/platform`'s `finish-shared-session-rollout` OpenSpec change to unblock the ArgoCD
-`Application` already defined at `clusters/dev/users/web.yaml` in `sweetrpg/kubernetes` - they
-deliberately don't wire up the suite-wide shared session or any backend API calls yet, since no
-application code exists to make those calls. See that change's `design.md` for the full context.
+- **Profile** (`/profile`, `ProfileController`): shows and inline-edits the signed-in user's
+  name, username, bio and website (`Public/profile-inline-edit.js` sends each field to
+  `POST /profile` as JSON), and shows the terms of service version and date the user accepted,
+  with links to `/terms` and `/privacy`.
+- **Settings** (`/settings`, `SettingsController`): linked login identities.
+- **Friends** (`/friends`, `FriendsController`).
+
+Conventions this repo follows, shared with `catalog-web` and `admin-web`:
+
+- **Path prefix**: Ingress strips `/users` before a request reaches the app, so routes are
+  registered unprefixed. Every link or redirect to a page of this app is built from
+  `INGRESS_BASE_PATH` (`req.basePath`, `meta.basePath` in templates). Links to pages other apps
+  serve (the suite home page, `/terms`, `/privacy`) hang off `ROOT_URL` (`meta.rootURL`)
+  instead; `main-web` serves them at the site root, not under `/users`.
+- **Session**: read-only. `Sources/App/Services/SessionUserAccess.swift` reads the session
+  `auth-web` writes into its Redis instance (`SHARED_SESSION_REDIS_*`); this app never writes it.
+  `AuthRequiredMiddleware` redirects anonymous visitors to `/auth/login?return_to=...`.
+- **Backend**: `Sources/App/Clients/UsersAPIClient.swift` calls `users-api` (`USERS_API_URL`)
+  with the user's own access token as a bearer credential.
+- **Localization**: no hardcoded user-facing text in templates. Strings live in
+  `Resources/Localizations/<code>.json` and are read as `meta.l10n.<key>`; English is the
+  fallback.
+
+The Kubernetes manifests (`kubernetes/base/`, `kubernetes/overlays/{dev,local}/`) deploy it via
+the ArgoCD `Application` at `clusters/dev/users/web.yaml` in `sweetrpg/kubernetes`.
 
 ## Committing Code
 
@@ -39,6 +52,4 @@ swift test
 swift format lint --recursive --strict Sources Tests
 ```
 
-These won't do anything meaningful until a real Vapor app exists in this repo. CI/PR validation
-workflows already run `swift build`/`swift test`/`swift format lint` on every push and PR
-against `develop` - they'll start passing once real source is added, not before.
+CI/PR validation workflows run the same three commands on every push and PR against `develop`.
