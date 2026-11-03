@@ -1,4 +1,12 @@
 
+## 0.9.0 - 2026-11-03
+
+### Added
+- Show terms link and accepted version on the profile page
+- Serve Prometheus metrics at /metrics
+
+
+
 ## 0.8.0 - 2026-10-08
 
 ### Added
