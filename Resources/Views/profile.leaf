@@ -57,6 +57,19 @@
           </div>
           <small>#(meta.l10n.profile_website_help)</small>
         </div>
+
+        <div class="profile-field" data-testid="profile-terms">
+          <label>#(meta.l10n.profile_terms)</label>
+          #if(terms.acceptedVersion):
+            <p class="profile-field-readonly">#(meta.l10n.profile_terms_accepted_prefix)#(terms.acceptedVersion)#(meta.l10n.profile_terms_accepted_middle)#(terms.acceptedDate)#(meta.l10n.profile_terms_accepted_suffix)</p>
+          #else:
+            <p class="profile-field-readonly">#(meta.l10n.profile_terms_not_recorded)</p>
+          #endif
+          <p class="profile-field-readonly">
+            <a href="#(terms.termsURL)">#(meta.l10n.profile_terms_link)</a>
+            <a href="#(terms.privacyURL)">#(meta.l10n.profile_privacy_link)</a>
+          </p>
+        </div>
       </div>
 
       <p class="profile-settings-link">
