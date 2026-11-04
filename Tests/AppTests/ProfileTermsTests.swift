@@ -40,8 +40,9 @@ private func renderProfile(_ profile: Profile, rootURL: String, basePath: String
   return html
 }
 
-@Suite("Profile terms section", .serialized)
-struct ProfileTermsTests {
+// Extends LeafTemplateTests so these Leaf renders share its .serialized ordering (Leaf crashes
+// under cross-suite parallel rendering).
+extension LeafTemplateTests {
   @Test("shows links to /terms and /privacy, and the accepted version and date")
   func showsLinksVersionAndDate() async throws {
     let html = try await renderProfile(

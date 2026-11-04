@@ -8,6 +8,7 @@ struct PageMeta: Content {
   let buildVersion: String
   let buildDate: String
   let buildHash: String
+  let footer: FooterMeta
   let loginURL: String
   let logoutURL: String
   let adminURL: String
@@ -22,6 +23,7 @@ struct PageMeta: Content {
     self.buildVersion = req.buildInfo.version
     self.buildDate = req.buildInfo.date
     self.buildHash = String(req.buildInfo.sha.prefix(8))
+    self.footer = FooterMeta(rootURL: req.rootURL, version: req.buildInfo.version)
     let returnTo = "\(req.basePath)\(req.url.path)"
     let encodedReturnTo =
       returnTo.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "/"

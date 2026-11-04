@@ -34,7 +34,6 @@
   "theme_light": "Light",
   "theme_dark": "Dark",
   "theme_system": "System",
-  "footer_copyright": "© 2026 Pilgrimage Software",
   "friends_title": "Friends",
   "friends_current": "Your Friends",
   "friends_none": "You have no friends yet.",
@@ -78,5 +77,8 @@
   "profile_terms_accepted_suffix": "",
   "profile_terms_not_recorded": "Not recorded yet",
   "profile_terms_link": "Read the Terms of Service",
-  "profile_privacy_link": "Read the Privacy Policy"
+  "profile_privacy_link": "Read the Privacy Policy",
+  "footer_terms": "Terms of Service",
+  "footer_privacy": "Privacy Policy",
+  "footer_support": "Support"
 }
